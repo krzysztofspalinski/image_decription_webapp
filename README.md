@@ -1,1 +1,1 @@
-# image_decription_webapp
+# image-recognition-frontend

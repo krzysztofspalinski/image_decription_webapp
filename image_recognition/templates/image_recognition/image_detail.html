@@ -1,0 +1,31 @@
+{% extends "image_recognition/base.html" %}
+{% block content %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		      <h1>Full results</h1>
+		      <small class="text-muted">Image uploaded by <a class="mr-2" href="{% url 'profile' %}">{{ object.author }}</a>at {{ object.date_posted|date:"Y F d, G:i" }} UTC</small>
+		    </div>
+		    <img class="img-fluid" src="{{ object.original_image.url }}">
+		    <hr>
+		    <h3>Image description</h3>
+		    <p><b>User description: </b> {{ object.user_description }}</p>
+		    <p><b>Model description: </b>
+		    {% if object.description_ready == True %}
+		    	{{ object.model_description }}
+		    {% else %}
+		    	<em>Description not ready. Refresh this page.</em> <a class="article-title btn btn-info" href="{% url 'image-detail' object.id %}">Refresh</a>
+		    {% endif %}
+			</p>
+		    <hr>
+		  	<h3>Model attention</h3>
+		  	<div class="text-center">
+		  	{% for attribute in object.imageattentiondescription_set.all %}
+		  		<img class="img-fluid" src="{{ attribute.attention_image.url }}">
+		  		<h4>{{ attribute.attention_word }}</h4>
+		  	{% endfor %}
+		  </div>
+		  </div>
+		  
+		</article>
+{% endblock content %}

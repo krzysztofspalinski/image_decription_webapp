@@ -1,0 +1,43 @@
+{% extends "image_recognition/base.html" %}
+{% block content %}
+<h1 class="mb-3">Images uploaded ({{ page_obj.paginator.count }})</h1>
+	{% for image in images %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		      
+		      <small class="text-muted">Image uploaded by <a class="mr-2" href="{% url 'profile' %}">{{ image.author }}</a>at {{ image.date_posted|date:"Y F d, G:i" }} UTC</small>
+		    </div>
+		    <h2><a class="article-title btn btn-info" href="{% url 'image-detail' image.id %}" style="color:white">Full results</a></h2>
+		    <p><b>User description: </b> {{ image.user_description }}</p>
+		    <p><b>Model description: </b>
+		    {% if image.description_ready == True %}
+		    	{{ image.model_description }}
+		    {% else %}
+		    	Description not ready. Please try refreshing this page in few seconds. 
+		    {% endif %}
+			</p>
+		    <img class="img-fluid" src="{{ image.original_image.url }}">
+		  </div>
+		</article>
+	{% endfor %}
+	{% if is_paginated %}
+		{% if page_obj.has_previous %}
+			<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+			<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+		{% endif %}
+		{% for num in page_obj.paginator.page_range %}
+			{% if page_obj.number == num %}
+				<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+			{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+				<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+
+		{% if page_obj.has_next %}
+			<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+			<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+		{% endif %}
+
+	{% endif %}
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends "image_recognition/base.html" %}
+{% block content %}
+<h1>Welcome to the Image Description App!</h1>
+<hr>
+
+{% if user.is_authenticated %}
+	<p>To upload a image and get its description, click on <b>Upload new image</b> button on the right panel. 
+		To explore your uploaded images and their descriptions, click on the <b>Show my images</b> button on the right panel.</p>
+{% else %}
+	<p>After creating a account, you will be able to upload a picture and recieve AI generated description of
+content of the image. To create a account, click on the <b>Register</b> button on the right panel. </p>
+{% endif %}
+
+{% endblock content %}
